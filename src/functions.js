@@ -74,8 +74,6 @@ export const setDone = (stateVal, index) => {
 export const editCSSAttr = obj => {
   let { action, id, state: {arr_importantItem}, state: {arr_itemDone} } = obj,
   targetElem = document.querySelector(`#item_${id}`),
-  inner_container = document.querySelector(`#inner_container_${id}`),
-  doneTitle = document.querySelector('#done').title,
   targetElemName = targetElem.textContent,
   CSSImportant = 'red b',
   CSSDone = 'strike',
@@ -87,22 +85,26 @@ export const editCSSAttr = obj => {
     if(hasAttr) {
       index = arr_importantItem.indexOf(targetElemName);
       targetElem.className = targetElem.className.replace(CSSImportant, '');
+      targetElem.title = '';
       return splicingArray(arr_importantItem, index, 1);
     } else {
       targetElem.className += ` ${CSSImportant}`;
+      targetElem.title = 'Important Item';
       return [...arr_importantItem, targetElemName];
     }
   } else {
     hasAttr = targetElem.className.indexOf(CSSDone) > -1;
+    let done = document.querySelector('#done'),
+    inner_container = document.querySelector(`#inner_container_${id}`);
     if(hasAttr) {
       index = arr_itemDone.indexOf(targetElemName);
       targetElem.className = targetElem.className.replace(CSSDone, '');
-      doneTitle = 'Not Done';
+      done.title = 'Not Done';
       inner_container.style.cssText = '';
       return splicingArray(arr_itemDone, index, 1);
     } else {
       targetElem.className += ` ${CSSDone}`;
-      doneTitle = 'Done';
+      done.title = 'Done';
       inner_container.style.cssText = 'width: 100%; height: 100%; z-index: 2; opacity: 0.4; pointer-events: none; filter: alpha(opacity = 50)';
       return [...arr_itemDone, targetElemName];
     }
